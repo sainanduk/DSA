@@ -1,6 +1,5 @@
 class Graph:
     def __init__(self):
-        self.V=0
         self.graph={}
     def add_vertex(self,vertex):
         if vertex in self.graph:
@@ -21,6 +20,32 @@ class Graph:
                 self.graph[U].append((V,W))
         else:
             print("vertex does not exist")
+    def dfs(self,source,visted=None):
+        if visted is None:
+            visted=[]
+        print(source)
+        visted.append(source)
+        for i in self.graph[source]:
+            if i[0] not in visted:
+                self.dfs(i[0],visted)
+    def bfs(self,source):
+        q=[]
+        ans=[]
+        q.append(source)
+        while q:
+            source=q.pop(0)
+            for i in self.graph[source]:
+                if i[0] not in ans:
+                    ans.append(i[0])
+                    q.append(i[0])
+        print(*ans)
+    def dijistras(self,source,destination):
+        
+
+
+
+        
+
 g=Graph()
 g.add_vertex('a')
 g.add_vertex('b')
@@ -33,6 +58,5 @@ g.add_edge('b','d',3)
 g.add_edge('d','c',3)
 g.add_edge('c','a',3)
 g.print_Graph()
-        
-
-    
+g.dfs('a')
+g.bfs('a')
