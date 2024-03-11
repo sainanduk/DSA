@@ -1,3 +1,4 @@
+from heapq import heappush,heapify
 class Graph:
     def __init__(self):
         self.graph={}
@@ -39,13 +40,30 @@ class Graph:
                     ans.append(i[0])
                     q.append(i[0])
         print(*ans)
-    def dijistras(self,source,destination):
-        
-
-
-
-        
-
+    def dijkstras(self,source,destination):
+        path={}
+        inf=float('inf')
+        for i in self.graph:
+            path[i]={'cost':inf,'predecessor':[]}
+        path[source]['cost']=0
+        temp=source
+        visted=[]
+        for i in range(len(self.graph)):
+            if temp not in visted:
+                visted.append(temp)
+                min_heap=[]
+                for node,weight in self.graph[temp]:
+                    if node not in visted:
+                        cost=path[temp]['cost']+weight
+                        if cost<path[node]['cost']:
+                            path[node]['cost']=cost
+                            path[node]['predecessor']=path[temp]['predecessor']+list(temp)
+                        heappush(min_heap,(path[node]['cost'],node))
+            heapify(min_heap)
+            if min_heap:
+                temp=min_heap[0][1]
+        print("shortest Distence :",path[destination]['cost'])
+        print("shortest path :",path[destination]['predecessor'])
 g=Graph()
 g.add_vertex('a')
 g.add_vertex('b')
@@ -60,3 +78,4 @@ g.add_edge('c','a',3)
 g.print_Graph()
 g.dfs('a')
 g.bfs('a')
+g.dijkstras('a','c')
